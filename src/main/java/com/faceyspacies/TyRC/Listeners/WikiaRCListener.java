@@ -15,5 +15,6 @@ public class WikiaRCListener extends ListenerAdapter {
 	@Override
 	public void onMessage(MessageEvent e) {
 		System.out.println(e.toString());
+		
 	}
 }
