@@ -28,7 +28,7 @@ public class WikiaRCListener extends ListenerAdapter {
 		try {
 			DiscussionsFeedEntry in = new DiscussionsFeedEntry(e.getMessage());
 			
-			String out = Colors.GREEN + "[[User:";
+			String out = Colors.DARK_GREEN + "[[User:";
 		
 			out += in.getUser() + "]]" + Colors.NORMAL;
 			
