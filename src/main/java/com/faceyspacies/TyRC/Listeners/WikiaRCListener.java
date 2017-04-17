@@ -115,8 +115,7 @@ public class WikiaRCListener extends ListenerAdapter {
 			out += Colors.DARK_BLUE + in.getUrl() + Colors.NORMAL + " : ";
 			
 			out += Colors.OLIVE + in.getSnippet();
-			System.out.println(out);
-			manager.getBotById(0).send().message("#tybot", out);
+			manager.getBotById(0).send().message(main.getReportChannel(), out);
 			
 		} catch (JSONException e1) {
 			System.out.print(e1.getClass() + ": " + e1.getMessage());
