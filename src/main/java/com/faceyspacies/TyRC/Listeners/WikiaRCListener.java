@@ -21,7 +21,7 @@ public class WikiaRCListener extends ListenerAdapter {
 		try {
 			DiscussionsFeedEntry in = new DiscussionsFeedEntry(e.getMessage());
 			
-			String out = "[[";
+			String out = "[[User:";
 		
 			out += in.getUser() + "]]";
 			
@@ -47,6 +47,7 @@ public class WikiaRCListener extends ListenerAdapter {
 					break;
 				}
 				
+				out += "(" + in.getSize() + ") ";
 				out += in.getUrl() + " : ";
 				
 				out += in.getSnippet();
@@ -72,6 +73,7 @@ public class WikiaRCListener extends ListenerAdapter {
 					break;
 				}
 				
+				out += "(" + in.getSize() + ") ";
 				out += in.getUrl() + " : ";
 				
 				out += in.getSnippet();
@@ -80,6 +82,7 @@ public class WikiaRCListener extends ListenerAdapter {
 				switch(in.getAction()) {
 				case CREATED:
 					out += " created thread [[" + in.getTitle() + "]] ";
+					out += "(" + in.getSize() + ") ";
 					break;
 				case DELETED:
 					out += " deleted thread [[" + in.getTitle() + "]] ";
@@ -96,13 +99,14 @@ public class WikiaRCListener extends ListenerAdapter {
 					break;
 				}
 				out += in.getUrl();
+				out += " : " + in.getSnippet();
 				
 				break;
 			}
 			
 			
 			
-			manager.getBotById(0).send().message("#tybot", out);
+			manager.getBotById(0).send().message("#wikia-discussions", out);
 			
 		} catch (JSONException e1) {
 			// TODO Auto-generated catch block

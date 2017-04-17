@@ -25,6 +25,8 @@ public class DiscussionsFeedEntry {
 	private String url;
 	private String snippet;
 	private String title;
+	private int size;
+	private String category;
 	
 
 	public DiscussionsFeedEntry(String json) throws JSONException, Exception {
@@ -70,15 +72,20 @@ public class DiscussionsFeedEntry {
 			setAction(Actions.MOVED);
 			break;
 			
+		case "modified":
+			setAction(Actions.MODIFIED);
+			break;
+			
 		default:
 			throw new Exception("Unknown Discussion action \"" + jsonObject.getString("action") + "\"");
 		}
 		
 		setUser(jsonObject.getString("userName"));
 		setUrl(jsonObject.getString("url"));
+		setSize(jsonObject.getInt("size"));
+		setCategory(jsonObject.getString("category"));
 		
-		if(!(getType() == EntryType.DISCUSSION_THREAD))
-			setSnippet(jsonObject.getString("snippet"));
+		setSnippet(jsonObject.getString("snippet"));
 		
 		
 	}
@@ -175,6 +182,34 @@ public class DiscussionsFeedEntry {
 	 */
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	/**
+	 * @return the size
+	 */
+	public int getSize() {
+		return size;
+	}
+
+	/**
+	 * @param i the size to set
+	 */
+	public void setSize(int i) {
+		this.size = i;
+	}
+
+	/**
+	 * @return the category
+	 */
+	public String getCategory() {
+		return category;
+	}
+
+	/**
+	 * @param category the category to set
+	 */
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
 }

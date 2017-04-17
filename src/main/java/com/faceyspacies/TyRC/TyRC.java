@@ -32,27 +32,27 @@ public class TyRC
     	manager = new MultiBotManager();
     	
     	Configuration freenodeConfig = new Configuration.Builder()
-            	.setName("TyRC3")
+            	.setName("TyRC")
             	.setAutoNickChange(true)
             	.setAutoReconnect(true)
             	.setLogin("tybot")
             	.setRealName("TyRC")
-            	.addAutoJoinChannel("#tybot")
+            	.addAutoJoinChannel("#wikia-discussions")
     			.addListener(new FreenodeListener(manager))
     			.addServer("irc.freenode.net")
     			.addCapHandler(new SASLCapHandler("tybot", ""))
     			.buildConfiguration();    			
     	
     	Configuration wikiaConfig = new Configuration.Builder()
-            	.setName("TyRC3")
+            	.setName("TyRC")
             	.setAutoNickChange(true)
             	.setAutoReconnect(true)
             	.setLogin("tybot")
             	.setRealName("TyRC")
-    			.setName("TyRC2")
+    			.setName("TyRC")
     			.addListener(new WikiaRCListener(manager))
-    			.addAutoJoinChannel("#channel")
-    			.addServer("irc.freenode.net")
+    			.addAutoJoinChannel("#discussionsfeed")
+    			.addServer("server", port)
     			.buildConfiguration();
     
     	freenode = new PircBotX(freenodeConfig);
