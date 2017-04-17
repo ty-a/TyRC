@@ -16,6 +16,7 @@ public class TyRC
 	private MultiBotManager manager;
 	private PircBotX freenode;
 	private PircBotX wikiaRC;
+	private boolean readyToSend;
 	
     public static void main( String[] args )
     {
@@ -24,6 +25,7 @@ public class TyRC
     }
     
     public void start() {
+    	readyToSend = false;
     	connectToIRC();
     }
     
@@ -37,8 +39,8 @@ public class TyRC
             	.setAutoReconnect(true)
             	.setLogin("tybot")
             	.setRealName("TyRC")
-            	.addAutoJoinChannel("#wikia-discussions")
-    			.addListener(new FreenodeListener(manager))
+            	.addAutoJoinChannel("#tybot")
+    			.addListener(new FreenodeListener(manager, this))
     			.addServer("irc.freenode.net")
     			.addCapHandler(new SASLCapHandler("tybot", ""))
     			.buildConfiguration();    			
@@ -50,9 +52,9 @@ public class TyRC
             	.setLogin("tybot")
             	.setRealName("TyRC")
     			.setName("TyRC")
-    			.addListener(new WikiaRCListener(manager))
+    			.addListener(new WikiaRCListener(manager, this))
     			.addAutoJoinChannel("#discussionsfeed")
-    			.addServer("server", port)
+    			.addServer("source", port)
     			.buildConfiguration();
     
     	freenode = new PircBotX(freenodeConfig);
@@ -64,4 +66,12 @@ public class TyRC
     	manager.start();
     	
     }
+
+	public void setIsReady(boolean b) {
+		readyToSend = b;
+	}
+	
+	public boolean isReady() {
+		return readyToSend;
+	}
 }

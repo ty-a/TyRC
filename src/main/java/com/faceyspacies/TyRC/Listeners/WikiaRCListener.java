@@ -1,29 +1,36 @@
 package com.faceyspacies.TyRC.Listeners;
 
 import org.json.JSONException;
+import org.pircbotx.Colors;
 import org.pircbotx.MultiBotManager;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.MessageEvent;
 
+import com.faceyspacies.TyRC.TyRC;
 import com.faceyspacies.TyRC.Containers.DiscussionsFeedEntry;
+import com.faceyspacies.TyRC.Containers.DiscussionsFeedEntry.Actions;
 
 public class WikiaRCListener extends ListenerAdapter {
 
 	private MultiBotManager manager;
+	private TyRC main;
 	
-	public WikiaRCListener(MultiBotManager manager) {
+	public WikiaRCListener(MultiBotManager manager, TyRC main) {
 		this.manager = manager;
+		this.main = main;
 	}
 	
 	@Override
 	public void onMessage(MessageEvent e) {
-		System.out.println(e.toString());
+		if(!main.isReady()) {
+			return;
+		}
 		try {
 			DiscussionsFeedEntry in = new DiscussionsFeedEntry(e.getMessage());
 			
-			String out = "[[User:";
+			String out = Colors.GREEN + "[[User:";
 		
-			out += in.getUser() + "]]";
+			out += in.getUser() + "]]" + Colors.NORMAL;
 			
 			switch (in.getType()) {
 			case DISCUSSION_REPLY:
@@ -48,9 +55,7 @@ public class WikiaRCListener extends ListenerAdapter {
 				}
 				
 				out += "(" + in.getSize() + ") ";
-				out += in.getUrl() + " : ";
 				
-				out += in.getSnippet();
 				break;
 			case DISCUSSION_REPORT:
 				switch(in.getAction()) {
@@ -74,45 +79,50 @@ public class WikiaRCListener extends ListenerAdapter {
 				}
 				
 				out += "(" + in.getSize() + ") ";
-				out += in.getUrl() + " : ";
-				
-				out += in.getSnippet();
+
 				break;
 			case DISCUSSION_THREAD:
 				switch(in.getAction()) {
 				case CREATED:
-					out += " created thread [[" + in.getTitle() + "]] ";
-					out += "(" + in.getSize() + ") ";
+					out += " created thread ";
 					break;
 				case DELETED:
-					out += " deleted thread [[" + in.getTitle() + "]] ";
+					out += " deleted thread ";
 					break;
 				case UNDELETED:
-					out += " undeleted thread [[" + in.getTitle() + "]] ";
+					out += " undeleted thread ";
 					break;
 				case MOVED:
-					out += " moved thread [[" + in.getTitle() + "]] ";
+					out += " moved thread ";
+					break;
 				case MODIFIED:
-					out += " edited thread [[" + in.getTitle() + "]] ";
+					out += " edited thread ";
 					break;
 				default:
 					break;
 				}
-				out += in.getUrl();
-				out += " : " + in.getSnippet();
+				
+				if(in.getAction() == Actions.CREATED) {
+					out += Colors.TEAL + "[[" + in.getTitle() + "]] " + Colors.NORMAL;
+					out += "(" + in.getSize() + ") ";
+				} else {
+					out += Colors.TEAL + "[[" + in.getTitle() + "]] " + Colors.NORMAL;
+				}
 				
 				break;
 			}
 			
+			out += Colors.DARK_BLUE + in.getUrl() + Colors.NORMAL + " : ";
 			
-			
-			manager.getBotById(0).send().message("#wikia-discussions", out);
+			out += Colors.OLIVE + in.getSnippet();
+			System.out.println(out);
+			manager.getBotById(0).send().message("#tybot", out);
 			
 		} catch (JSONException e1) {
-			// TODO Auto-generated catch block
+			System.out.print(e1.getClass() + ": " + e1.getMessage());
 			e1.printStackTrace();
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
+			System.out.print(e1.getClass() + ": " + e1.getMessage());
 			e1.printStackTrace();
 		}
 		
