@@ -9,24 +9,24 @@ import com.faceyspacies.TyRC.TyRC;
 
 public class FreenodeListener extends ListenerAdapter {
 
-	private MultiBotManager manager;
-	private TyRC main;
-	
-	public FreenodeListener(MultiBotManager manager, TyRC main) {
-		this.manager = manager;
-		this.main = main;
-	}
-	
-	@Override
-	public void onMessage(MessageEvent e) {
-		System.out.println(e.toString());
-	}
-	
-	@Override
-	public void onJoin(JoinEvent e) {
-		if(e.getUserHostmask().getHostname().equals("wikia/TyBot")) {
-			main.setIsReady(true);
-		}
-	}
+  private MultiBotManager manager;
+  private TyRC main;
+
+  public FreenodeListener(MultiBotManager manager, TyRC main) {
+    this.manager = manager;
+    this.main = main;
+  }
+
+  @Override
+  public void onMessage(MessageEvent e) {
+    System.out.println(e.toString());
+  }
+
+  @Override
+  public void onJoin(JoinEvent e) {
+    if (e.getUserHostmask().getHostname().equals("wikia/TyBot")) {
+      main.setIsReady(true);
+    }
+  }
 
 }
