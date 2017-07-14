@@ -12,6 +12,7 @@ import org.pircbotx.Configuration;
 import org.pircbotx.MultiBotManager;
 import org.pircbotx.PircBotX;
 import org.pircbotx.cap.SASLCapHandler;
+
 import com.faceyspacies.TyRC.Listeners.FreenodeListener;
 import com.faceyspacies.TyRC.Listeners.WikiaRCListener;
 
@@ -41,31 +42,32 @@ public class TyRC {
 
     manager = new MultiBotManager();
 
-    Configuration freenodeConfig = new Configuration.Builder()
-        .setName(config.getProperty("reportnick", "TyRC"))
-        .setAutoNickChange(true)
-        .setAutoReconnect(true)
-        .setLogin("tybot")
-        .setRealName("TyRC")
-        .addAutoJoinChannel(config.getProperty("reportchannel", "#tybot"))
-        .addListener(new FreenodeListener(manager, this))
-        .addServer("irc.freenode.net")
-        .addCapHandler(new SASLCapHandler(config.getProperty("reportusername", null),
-                                          config.getProperty("reportpassword", null)))
-        .buildConfiguration();
+    Configuration freenodeConfig =
+        new Configuration.Builder()
+            .setName(config.getProperty("reportnick", "TyRC"))
+            .setAutoNickChange(true)
+            .setAutoReconnect(true)
+            .setLogin("tybot")
+            .setRealName("TyRC")
+            .addAutoJoinChannel(config.getProperty("reportchannel", "#tybot"))
+            .addListener(new FreenodeListener(manager, this))
+            .addServer("irc.freenode.net")
+            .addCapHandler(
+                new SASLCapHandler(config.getProperty("reportusername", null), config.getProperty(
+                    "reportpassword", null))).buildConfiguration();
 
-    Configuration wikiaConfig = new Configuration.Builder()
-        .setName("TyRC")
-        .setAutoNickChange(true)
-        .setAutoReconnect(true)
-        .setLogin("tybot")
-        .setRealName("TyRC")
-        .setName("TyRC")
-        .addListener(new WikiaRCListener(manager, this))
-        .addAutoJoinChannel("#discussionsfeed")
-        .addServer(config.getProperty("feednetwork", null),
-                   Integer.parseInt(config.getProperty("feedport", null)))
-        .buildConfiguration();
+    Configuration wikiaConfig =
+        new Configuration.Builder()
+            .setName("TyRC")
+            .setAutoNickChange(true)
+            .setAutoReconnect(true)
+            .setLogin("tybot")
+            .setRealName("TyRC")
+            .setName("TyRC")
+            .addListener(new WikiaRCListener(manager, this))
+            .addAutoJoinChannel("#discussionsfeed")
+            .addServer(config.getProperty("feednetwork", null),
+                Integer.parseInt(config.getProperty("feedport", null))).buildConfiguration();
 
     freenode = new PircBotX(freenodeConfig);
     wikiaRC = new PircBotX(wikiaConfig);
@@ -100,7 +102,8 @@ public class TyRC {
       System.out.println("tyrc.properties not found; did you rename tyrc.properties.sample?");
       System.exit(0);
     } catch (IOException e) {
-      System.out.println("IOException loading tyrc.properties. Do you have permissions to read it?");
+      System.out
+          .println("IOException loading tyrc.properties. Do you have permissions to read it?");
       System.exit(0);
     }
   }

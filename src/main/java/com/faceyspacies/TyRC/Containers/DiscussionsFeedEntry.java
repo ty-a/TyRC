@@ -6,17 +6,11 @@ import org.json.JSONObject;
 public class DiscussionsFeedEntry {
 
   public enum EntryType {
-    DISCUSSION_THREAD,
-    DISCUSSION_REPLY,
-    DISCUSSION_REPORT
+    DISCUSSION_THREAD, DISCUSSION_REPLY, DISCUSSION_REPORT
   }
 
   public enum Actions {
-    CREATED,
-    DELETED,
-    UNDELETED,
-    MOVED,
-    MODIFIED
+    CREATED, DELETED, UNDELETED, MOVED, MODIFIED
   }
 
   private EntryType type;
@@ -30,63 +24,68 @@ public class DiscussionsFeedEntry {
 
 
   public DiscussionsFeedEntry(String json) throws JSONException, Exception {
-    JSONObject jsonObject = new JSONObject(json);
+    try {
+      JSONObject jsonObject = new JSONObject(json);
 
-    switch (jsonObject.getString("type")) {
-      case "discussion-thread":
-        setType(EntryType.DISCUSSION_THREAD);
-        try {
-          setTitle(jsonObject.getString("title"));
-        } catch (JSONException e) {
-          setTitle("");
-        }
-        break;
+      switch (jsonObject.getString("type")) {
+        case "discussion-thread":
+          setType(EntryType.DISCUSSION_THREAD);
+          try {
+            setTitle(jsonObject.getString("title"));
+          } catch (JSONException e) {
+            setTitle("");
+          }
+          break;
 
-      case "discussion-post":
-        setType(EntryType.DISCUSSION_REPLY);
-        break;
+        case "discussion-post":
+          setType(EntryType.DISCUSSION_REPLY);
+          break;
 
-      case "discussion-report":
-        setType(EntryType.DISCUSSION_REPORT);
-        break;
+        case "discussion-report":
+          setType(EntryType.DISCUSSION_REPORT);
+          break;
 
-      default:
-        throw new Exception("Unknown Discussion type \"" + jsonObject.getString("type") + "\"");
+        default:
+          throw new Exception("Unknown Discussion type \"" + jsonObject.getString("type") + "\"");
 
+      }
+
+      switch (jsonObject.getString("action")) {
+        case "created":
+          setAction(Actions.CREATED);
+          break;
+
+        case "deleted":
+          setAction(Actions.DELETED);
+          break;
+
+        case "un-deleted":
+          setAction(Actions.UNDELETED);
+          break;
+
+        case "moved":
+          setAction(Actions.MOVED);
+          break;
+
+        case "modified":
+          setAction(Actions.MODIFIED);
+          break;
+
+        default:
+          throw new Exception("Unknown Discussion action \"" + jsonObject.getString("action")
+              + "\"");
+      }
+
+      setUser(jsonObject.getString("userName"));
+      setUrl(jsonObject.getString("url"));
+      setSize(jsonObject.getInt("size"));
+      setCategory(jsonObject.getString("category"));
+
+      setSnippet(jsonObject.getString("snippet"));
+
+    } catch (org.json.JSONException e) {
+      System.out.println("Invalid JSON: " + json);
     }
-
-    switch (jsonObject.getString("action")) {
-      case "created":
-        setAction(Actions.CREATED);
-        break;
-
-      case "deleted":
-        setAction(Actions.DELETED);
-        break;
-
-      case "un-deleted":
-        setAction(Actions.UNDELETED);
-        break;
-
-      case "moved":
-        setAction(Actions.MOVED);
-        break;
-
-      case "modified":
-        setAction(Actions.MODIFIED);
-        break;
-
-      default:
-        throw new Exception("Unknown Discussion action \"" + jsonObject.getString("action") + "\"");
-    }
-
-    setUser(jsonObject.getString("userName"));
-    setUrl(jsonObject.getString("url"));
-    setSize(jsonObject.getInt("size"));
-    setCategory(jsonObject.getString("category"));
-
-    setSnippet(jsonObject.getString("snippet"));
-
 
   }
 
