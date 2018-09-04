@@ -28,6 +28,10 @@ public class WikiaRCListener extends ListenerAdapter {
     try {
       DiscussionsFeedEntry in = new DiscussionsFeedEntry(e.getMessage());
 
+      if (shouldIgnoreUser(in.getUser())) {
+        return;
+      }
+
       StringBuilder out = new StringBuilder(Colors.DARK_GREEN + "[[User:");
       out.append(in.getUser()).append("]]" + Colors.NORMAL);
 
@@ -124,5 +128,10 @@ public class WikiaRCListener extends ListenerAdapter {
       e1.printStackTrace();
     }
 
+  }
+
+  private boolean shouldIgnoreUser(String user) {
+    return user.startsWith("QATestsUser") ||
+           user.startsWith("QATestsStaff");
   }
 }

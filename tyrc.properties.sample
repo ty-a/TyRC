@@ -4,3 +4,6 @@ reportnick=TyRC
 reportpassword=
 feednetwork=
 feedport=
+feednick=TyRC
+hostmask=wikia/TyBot
+realname=TyRC

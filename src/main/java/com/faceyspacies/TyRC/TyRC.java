@@ -47,8 +47,8 @@ public class TyRC {
             .setName(config.getProperty("reportnick", "TyRC"))
             .setAutoNickChange(true)
             .setAutoReconnect(true)
-            .setLogin("tybot")
-            .setRealName("TyRC")
+            .setLogin(config.getProperty("reportusername", "tybot"))
+            .setRealName(config.getProperty("realname", "TyRC"))
             .addAutoJoinChannel(config.getProperty("reportchannel", "#tybot"))
             .addListener(new FreenodeListener(manager, this))
             .addServer("irc.freenode.net")
@@ -58,12 +58,11 @@ public class TyRC {
 
     Configuration wikiaConfig =
         new Configuration.Builder()
-            .setName("TyRC")
+            .setName(config.getProperty("feednick", "TyRC"))
             .setAutoNickChange(true)
             .setAutoReconnect(true)
-            .setLogin("tybot")
-            .setRealName("TyRC")
-            .setName("TyRC")
+            .setLogin(config.getProperty("reportusername", "tybot"))
+            .setRealName(config.getProperty("realname", "TyRC"))
             .addListener(new WikiaRCListener(manager, this))
             .addAutoJoinChannel("#discussionsfeed")
             .addServer(config.getProperty("feednetwork", null),
@@ -121,5 +120,9 @@ public class TyRC {
 
   public String getReportChannel() {
     return config.getProperty("reportchannel");
+  }
+
+  public String getHostmask() {
+    return config.getProperty("hostmask", "wikia/TyBot");
   }
 }

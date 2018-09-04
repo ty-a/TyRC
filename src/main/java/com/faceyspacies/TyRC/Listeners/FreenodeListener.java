@@ -24,7 +24,7 @@ public class FreenodeListener extends ListenerAdapter {
 
   @Override
   public void onJoin(JoinEvent e) {
-    if (e.getUserHostmask().getHostname().equals("wikia/TyBot")) {
+    if (e.getUserHostmask().getHostname().equals(main.getHostmask())) {
       main.setIsReady(true);
     }
   }
