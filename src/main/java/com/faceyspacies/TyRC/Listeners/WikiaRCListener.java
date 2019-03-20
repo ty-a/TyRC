@@ -131,7 +131,7 @@ public class WikiaRCListener extends ListenerAdapter {
   }
 
   private boolean shouldIgnoreUser(String user) {
-    return user.startsWith("QATestsUser") ||
-           user.startsWith("QATestsStaff");
+    return user.startsWith("QATestsUser") || user.startsWith("QATestsStaff")
+        || user.equals("Autoadm2");
   }
 }
